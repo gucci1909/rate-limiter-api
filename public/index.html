@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚀 Welcome to Our API</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      body {
+        background-color: #121212;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        position: relative;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        color: #00ffcc;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: lighter;
+        color: #dddddd;
+        margin-bottom: 30px;
+      }
+
+      .cta {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 1rem;
+        color: #ffffff;
+        background: #00ffcc;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .cta:hover {
+        background: #009977;
+      }
+
+      .animation {
+        width: 300px;
+        margin-bottom: 30px;
+      }
+
+      .endpoints {
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+      }
+
+      .endpoints h3 {
+        color: #00ffcc;
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+      }
+
+      .endpoint {
+        font-family: monospace;
+        background: #2b2b2b;
+        padding: 10px;
+        margin: 6px 0;
+        border-radius: 4px;
+        color: #ffffff;
+        word-break: break-word;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 10px;
+        font-size: 0.9rem;
+        color: #aaaaaa;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🚀 Welcome to Our Rate-Limiter API</h1>
+    <h2>Your Gateway to a Scalable & Unique Experience</h2>
+
+    <div class="endpoints">
+      <h3>🔗 Available Endpoints</h3>
+      <div class="endpoint">POST /apis/register</div>
+      <div class="endpoint">GET /apis/:app_id</div>
+      <div class="endpoint">GET /apis/:app_id/status</div>
+      <div class="endpoint">GET /apis/:app_id/analytics</div>
+    </div>
+
+    <footer>
+      Powered by Node.js, TypeScript & Express |
+      <strong>Designed for Scalability</strong>
+    </footer>
+  </body>
+</html>
