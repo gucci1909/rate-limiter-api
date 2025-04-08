@@ -3,6 +3,8 @@ import amqp from 'amqplib';
 
 dotenv.config();
 
+// this rabbitmq is used for token bucket strategy and sliding window strategy to store the rate limit data
+
 const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://localhost';
 
 let channel: amqp.Channel;

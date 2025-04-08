@@ -9,6 +9,7 @@ export interface RateLimitConfig {
 export interface RegisterPayload {
   baseUrl: string;
   rateLimit: RateLimitConfig;
+  expiryHours?: number;
 }
 
 export interface AppModel extends RegisterPayload {

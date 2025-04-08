@@ -58,7 +58,7 @@ const useStrategyBaseApiUrl: any = async (
     if (!limiterResult.allowed) {
       return res.status(429).json({
         error: "Rate limit exceeded",
-        retryAfter: limiterResult.retryAfter,
+        retryAfter: `${limiterResult.retryAfter} seconds`,
       });
     }
 

@@ -2,6 +2,9 @@ import winston from "winston";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// this logger is for logging application errors and info messages
+// it will log to a file in the logs directory and to the console in development mode
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

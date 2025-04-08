@@ -12,7 +12,7 @@ const errorHandler = (
 
   res.status(statusCode).json({ success: false, message });
 
-  import("../config/logger").then(({ default: logger }) => {
+  import("../config/logger.js").then(({ default: logger }) => {
     logger.error(`${req.method} ${req.url} - ${statusCode}: ${message}`);
   });
 };

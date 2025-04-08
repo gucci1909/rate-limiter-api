@@ -5,7 +5,7 @@ import { AppModel, RegisterPayload } from "../types/controllers.js";
 
 const registerApp = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { baseUrl, rateLimit } = req.body as RegisterPayload;
+    const { baseUrl, rateLimit, expiryHours } = req.body as RegisterPayload;
 
     if (
       !baseUrl ||
@@ -29,7 +29,11 @@ const registerApp = async (req: Request, res: Response): Promise<void> => {
       createdAt: new Date().toISOString(),
     };
 
-    await redis.set(`app:${appId}`, JSON.stringify(newApp));
+    const expirySeconds = Math.min(Math.max(expiryHours as number, 1), 720) * 3600;
+
+    await redis.set(`app:${appId}`, JSON.stringify(newApp), {
+      ex: expirySeconds,
+    });
 
     res.status(201).json({
       message: "App registered successfully",

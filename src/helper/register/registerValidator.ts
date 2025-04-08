@@ -29,13 +29,13 @@ const validateRegisterApp = [
     .isInt({ gt: 0 })
     .withMessage("Time window must be a positive integer"),
 
-    body("rateLimit.bucketSize")
+  body("rateLimit.bucketSize")
     .if((value, { req }) => req.body.rateLimit?.strategy === "token-bucket")
     .notEmpty()
     .withMessage("Bucket size is required for token-bucket strategy")
     .isInt({ gt: 0 })
     .withMessage("Bucket size must be a positive integer"),
-  
+
   body("rateLimit.refillRate")
     .if((value, { req }) => req.body.rateLimit?.strategy === "token-bucket")
     .notEmpty()

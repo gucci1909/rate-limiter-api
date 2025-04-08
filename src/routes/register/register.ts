@@ -18,7 +18,8 @@ const registerRoutes = express.Router();
  *     requestCount: number,
  *     timeWindow: number,
  *     ...additionalParams
- *   }
+ *   },
+ *  expiryHours: number
  * }
  * @returns { appId: string }
  */

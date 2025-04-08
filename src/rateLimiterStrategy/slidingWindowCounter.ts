@@ -5,21 +5,6 @@ import {
   SlidingWindowInput,
 } from "../types/rateLimiterStrategy.js";
 
-const getSlidingWindowKey = (appId: string): string => `slidingWindow:${appId}`;
-
-const getCurrentTimestamp = (): number => Date.now();
-
-const getWindowStart = (now: number, timeWindow: number): number =>
-  now - timeWindow * 1000;
-
-const removeOldEntries = async (key: string, windowStart: number): Promise<void> => {
-  await redis.zremrangebyscore(key, 0, windowStart);
-};
-
-const getRequestCount = async (key: string): Promise<number> => {
-  return await redis.zcard(key);
-};
-
 const addRequest = async (key: string, now: number, timeWindow: number): Promise<void> => {
   await redis.zadd(key, { score: now, member: `${now}` });
   await redis.expire(key, timeWindow);
@@ -48,12 +33,12 @@ const slidingWindow = async (
   input: SlidingWindowInput
 ): Promise<RateLimitResult> => {
   const { appId, limit, timeWindow } = input;
-  const key = getSlidingWindowKey(appId);
-  const now = getCurrentTimestamp();
-  const windowStart = getWindowStart(now, timeWindow);
+  const key = `slidingWindow:${appId}`;
+  const now = Date.now();
+  const windowStart =  now - timeWindow * 1000;
 
-  await removeOldEntries(key, windowStart);
-  const requestCount = await getRequestCount(key);
+  await redis.zremrangebyscore(key, 0, windowStart);
+  const requestCount = await redis.zcard(key);
 
   if (requestCount < limit) {
     await addRequest(key, now, timeWindow);

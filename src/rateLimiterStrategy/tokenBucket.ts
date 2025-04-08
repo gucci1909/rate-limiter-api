@@ -6,10 +6,6 @@ import {
   TokenBucketInput,
 } from "../types/rateLimiterStrategy.js";
 
-const getBucketKey = (appId: string): string => `tokenBucket:${appId}`;
-
-const getCurrentTimestamp = (): number => Date.now();
-
 const fetchBucketFromRedis = async (
   key: string,
   bucketSize: number,
@@ -38,10 +34,6 @@ const refillBucket = (
   return bucket;
 };
 
-const persistBucketToRedis = async (key: string, bucket: TokenBucket) => {
-  await redis.set(key, JSON.stringify(bucket));
-};
-
 const queueRateLimitEvent = async (appId: string) => {
   const channel = getChannel();
   await channel.sendToQueue(
@@ -50,25 +42,23 @@ const queueRateLimitEvent = async (appId: string) => {
   );
 };
 
-const calculateRetryAfter = (refillRate: number): number => 1 / refillRate;
-
 const tokenBucket = async (
   input: TokenBucketInput
 ): Promise<RateLimitResult> => {
   const { appId, bucketSize, refillRate } = input;
-  const key = getBucketKey(appId);
-  const now = getCurrentTimestamp();
+  const key = `tokenBucket:${appId}`;
+  const now = Date.now();
 
   let bucket = await fetchBucketFromRedis(key, bucketSize, now);
   bucket = refillBucket(bucket, refillRate, bucketSize, now);
 
   if (bucket.tokens > 0) {
     bucket.tokens -= 1;
-    await persistBucketToRedis(key, bucket);
+    await redis.set(key, JSON.stringify(bucket));
     return { allowed: true };
   } else {
     await queueRateLimitEvent(appId);
-    return { allowed: false, retryAfter: calculateRetryAfter(refillRate) };
+    return { allowed: false, retryAfter:  1 / refillRate };
   }
 };
 
