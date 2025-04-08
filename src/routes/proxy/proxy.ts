@@ -9,6 +9,9 @@ const proxyRoutes = express.Router();
  */
 proxyRoutes.get("/:app_id", useStrategyBaseApiUrl);
 
+
+// we can use the /status and /analytics endpoints for future enchancements 
+
 /**
  * @route GET /apis/:app_id/status
  * @desc Get status of app - rate limits, current usage etc.

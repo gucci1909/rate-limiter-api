@@ -12,6 +12,8 @@ const useStrategyBaseApiUrl: any = async (
   res: Response
 ): Promise<Response> => {
   const appId = req.params?.app_id;
+  // setting requestId so that I can see the requestId in the logs of rabbitMQ when the request is queued
+  // and also in the response when the request is queued for processing
   const requestId = uuidv4();
 
   if (!appId) {
@@ -44,6 +46,8 @@ const useStrategyBaseApiUrl: any = async (
         timeWindow: rateLimit.timeWindow,
       });
     } else if (rateLimit.strategy === "token-bucket") {
+      // adding bucketSize and refillRate in token-bucket, I cannot think of a usecase where I can use the worker, so I implemented that for sliding window only
+      // but I can add it in the future if needed
       limiterResult = await tokenBucket({
         appId,
         strategy: "token-bucket",

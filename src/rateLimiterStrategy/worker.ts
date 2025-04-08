@@ -1,6 +1,11 @@
 import { getChannel } from "../config/rabbitMq.js";
 import { queueRateLimitEvent, slidingWindow } from "./slidingWindowCounter.js";
 
+// this is a worker, which will handle the queued requests from the rate-limit-queue. when the request is queued, it will be
+// processed by this worker. the worker will check if the request is allowed or not. if the request is allowed, it will ack the 
+// message. if the request is not allowed, it will requeue the message after a certain time. */
+
+
 const startWorker = async () => {
   const channel = getChannel();
   await channel.assertQueue("rate-limit-queue");

@@ -37,6 +37,10 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/apis", registerRoutes);
 app.use("/apis", proxyRoutes);
 
+// app.use("*", (req: Request, res: Response) => {
+//   res.sendFile(path.resolve(__dirname, "../public/errorPage.html"));
+// });
+
 // Global error handler
 app.use(errorHandler);
 

@@ -20,6 +20,8 @@ const registerApp = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    /* Hashing it with SHA-256 gives a fixed-length, opaque string that doesn't reveal the original UUID. */
+
     const appId = generateApiKeySHA256();
 
     const newApp: AppModel = {
@@ -29,8 +31,10 @@ const registerApp = async (req: Request, res: Response): Promise<void> => {
       createdAt: new Date().toISOString(),
     };
 
-    const expirySeconds = Math.min(Math.max(expiryHours as number, 1), 720) * 3600;
+    const expirySeconds =
+      Math.min(Math.max(expiryHours as number, 1), 720) * 3600;
 
+    /* setting expiration of the key and data save */
     await redis.set(`app:${appId}`, JSON.stringify(newApp), {
       ex: expirySeconds,
     });
