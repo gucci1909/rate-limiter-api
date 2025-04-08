@@ -6,8 +6,9 @@ import errorHandler from "./middleware/errorHandler.js";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-// import proxyRoutes from "./routes/proxy/proxy.js";
 import registerRoutes from "./routes/register/register.js";
+import proxyRoutes from "./routes/proxy/proxy.js";
+import { connectRabbitMq } from "./config/rabbitMq.js";
 
 dotenv.config();
 
@@ -30,13 +31,14 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use("/apis", registerRoutes);
-// app.use("/apis", proxyRoutes);
+app.use("/apis", proxyRoutes);
 
 // Global error handler
 app.use(errorHandler);
 
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await connectRabbitMq();
   console.info(
     `\x1b[32m✅ SUCCESS:\x1b[0m Server running on: \x1b[4;36mhttp://localhost:${PORT}\x1b[0m`
   );

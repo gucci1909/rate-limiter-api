@@ -1,21 +1,19 @@
 import express from "express";
-import dotenv from "dotenv";
-dotenv.config();
+import { useStrategyBaseApiUrl } from "../../controller/proxy.controller.js";
 const proxyRoutes = express.Router();
-proxyRoutes.use();
 /**
  * @route GET /apis/:app_id
- * @desc View likes to a specific post
+ * @desc Get app details or forwarded proxied API
  */
-proxyRoutes.get("/:app_id");
+proxyRoutes.get("/:app_id", useStrategyBaseApiUrl);
 /**
- * @route GET /api/likes/:post_id
- * @desc Add a like to a specific post
+ * @route GET /apis/:app_id/status
+ * @desc Get status of app - rate limits, current usage etc.
  */
-proxyRoutes.get("/:app_id/status");
+// proxyRoutes.get("/:app_id/status", getAppStatus);
 /**
- * @route get /api/likes/:post_id
- * @desc Remove a like from a specific post
+ * @route GET /apis/:app_id/analytics
+ * @desc Get analytics of API usage, from Redis or RabbitMQ logs
  */
-proxyRoutes.get("/:app_id/analytics");
+// proxyRoutes.get("/:app_id/analytics", getAppAnalytics);
 export default proxyRoutes;
