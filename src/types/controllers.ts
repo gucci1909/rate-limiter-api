@@ -17,11 +17,6 @@ export interface AppModel extends RegisterPayload {
   createdAt: string;
 }
 
-export interface RateLimitResult {
-  allowed: boolean;
-  retryAfter?: number;
-}
-
 export interface TokenBucket {
   tokens: number;
   lastRefill: number;

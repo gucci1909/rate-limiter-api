@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import registerRoutes from "./routes/register/register.js";
 import proxyRoutes from "./routes/proxy/proxy.js";
 import { connectRabbitMq } from "./config/rabbitMq.js";
+import { startWorker } from "./rateLimiterStrategy/worker.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use(errorHandler);
 
 app.listen(PORT, async () => {
   await connectRabbitMq();
+  await startWorker();
   console.info(
     `\x1b[32m✅ SUCCESS:\x1b[0m Server running on: \x1b[4;36mhttp://localhost:${PORT}\x1b[0m`
   );

@@ -13,9 +13,12 @@ export interface TokenBucketInput extends BaseRateLimitInput {
 
 export interface SlidingWindowInput extends BaseRateLimitInput {
   strategy: "sliding-window";
+  requestId: string;
 }
 
 export interface RateLimitResult {
   allowed: boolean;
   retryAfter?: number;
+  statusCode?: number;
+  message?: string;
 }
